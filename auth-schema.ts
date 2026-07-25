@@ -1,5 +1,20 @@
 import { relations } from "drizzle-orm";
-import { pgTable, text, timestamp, boolean, index } from "drizzle-orm/pg-core";
+import { pgTable, text, timestamp, boolean, index, uuid, varchar } from "drizzle-orm/pg-core";
+
+export const TaskTable = pgTable("tasks", {
+  taskId: uuid("task_id").defaultRandom().primaryKey(),
+  taskContent: varchar("task_content", { length: 150 }).notNull(),
+  taskCreator: text("task_creator").references(() => user.name).notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const TaskComments = pgTable("task_comments", {
+  commentId: uuid("comment_id").defaultRandom().primaryKey(),
+  commmentContent: varchar("comment_content", { length: 255 }).notNull(),
+  commentCreator: text("comment_creator").references(() => user.name),
+  originalTaskId: uuid("original_task_id").references(() => TaskTable.taskId),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+})
 
 export const user = pgTable("user", {
   id: text("id").primaryKey(),
@@ -89,5 +104,24 @@ export const accountRelations = relations(account, ({ one }) => ({
   user: one(user, {
     fields: [account.userId],
     references: [user.id],
+  }),
+}));
+
+export const TaskRelations = relations(TaskTable, ({one, many}) => ({
+  user: one(user, {
+    fields: [TaskTable.taskCreator],
+    references: [user.name],
+  }),
+  comments: many(TaskComments),
+}));
+
+export const CommentRelations = relations(TaskComments, ({one}) => ({
+  user: one(user, {
+    fields: [TaskComments.commentCreator],
+    references: [user.name],
+  }),
+  post: one(TaskTable, {
+    fields: [TaskComments.originalTaskId],
+    references: [TaskTable.taskId],
   }),
 }));
