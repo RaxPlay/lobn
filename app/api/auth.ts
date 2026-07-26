@@ -18,7 +18,7 @@ export async function signUpAction(formData: FormData){
 		},
 	}),
 
-	redirect("/");
+	redirect("/access-board");
 }
 
 export async function signInAction(formData: FormData){
@@ -32,7 +32,7 @@ export async function signInAction(formData: FormData){
 		},
 	}),
 
-	redirect("/");
+	redirect("/access-board");
 }
 
 export async function signOutAction(){
@@ -40,5 +40,5 @@ export async function signOutAction(){
 		headers: await headers(),
 	}),
 
-	redirect("/");
+	redirect("/sign-in");
 }
