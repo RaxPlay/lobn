@@ -1,18 +1,27 @@
 import { relations } from "drizzle-orm";
 import { pgTable, text, timestamp, boolean, index, uuid, varchar } from "drizzle-orm/pg-core";
 
+export const BoardTable = pgTable("boards", {
+  boardId: uuid("board_id").defaultRandom().primaryKey(),
+  boardName: varchar("board_name", { length: 50 }).notNull(),
+  boardPassword: varchar("board_password", { length: 100} ).notNull(),
+  //When selecting, left join tasks and comments.
+})
+
 export const TaskTable = pgTable("tasks", {
   taskId: uuid("task_id").defaultRandom().primaryKey(),
   taskContent: varchar("task_content", { length: 150 }).notNull(),
   taskCreator: text("task_creator").references(() => user.name).notNull(),
+  boardId: uuid("board_id").references(() => BoardTable.boardId).notNull(),
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
-export const TaskComments = pgTable("task_comments", {
+export const CommentsTable = pgTable("task_comments", {
   commentId: uuid("comment_id").defaultRandom().primaryKey(),
   commmentContent: varchar("comment_content", { length: 255 }).notNull(),
   commentCreator: text("comment_creator").references(() => user.name),
   originalTaskId: uuid("original_task_id").references(() => TaskTable.taskId),
+  boardId: uuid("board_id").references(() => BoardTable.boardId).notNull(),
   createdAt: timestamp("created_at").defaultNow().notNull(),
 })
 
@@ -112,16 +121,22 @@ export const TaskRelations = relations(TaskTable, ({one, many}) => ({
     fields: [TaskTable.taskCreator],
     references: [user.name],
   }),
-  comments: many(TaskComments),
+  comments: many(CommentsTable),
 }));
 
-export const CommentRelations = relations(TaskComments, ({one}) => ({
+export const CommentRelations = relations(CommentsTable, ({one}) => ({
   user: one(user, {
-    fields: [TaskComments.commentCreator],
+    fields: [CommentsTable.commentCreator],
     references: [user.name],
   }),
-  post: one(TaskTable, {
-    fields: [TaskComments.originalTaskId],
+  task: one(TaskTable, {
+    fields: [CommentsTable.originalTaskId],
     references: [TaskTable.taskId],
   }),
 }));
+
+export const BoardRelations = relations(BoardTable, ({many}) => ({
+  members: many(user),
+  tasks: many(TaskTable),
+  comments: many(CommentsTable)
+}))
