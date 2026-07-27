@@ -1,12 +1,9 @@
 import { BoardProps } from "@/app/access-board/page";
 import { FaArrowUp } from "react-icons/fa";
 
-export default function JoinBoardForm({
-  boardName,
-  setBoardName,
-  boardPassword,
-  setBoardPassword,
-}: BoardProps) {
+export default function JoinBoardForm(
+  { boardName, setBoardName, boardPassword, setBoardPassword }: BoardProps
+) {
   return (
     <form action="" className="flex flex-col items-center">
       <h1>Join Board</h1>
@@ -33,7 +30,7 @@ export default function JoinBoardForm({
         />
 
         <button type="submit" className="mt-3 flex justify-center items-center">
-          <FaArrowUp/>
+          <FaArrowUp />
         </button>
       </div>
     </form>
