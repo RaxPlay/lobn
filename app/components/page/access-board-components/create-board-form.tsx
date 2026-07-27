@@ -23,7 +23,7 @@ export default function CreateBoardForm(
 
   if(boardId !== ""){
     socket.emit("join-room", { boardId })
-    redirect(`/board?id=${boardId}`);
+    redirect(`/board/${boardId}`);
   }
 
   return (

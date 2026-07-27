@@ -2,7 +2,7 @@
 
 import { BoardProps } from "@/app/access-board/page";
 import { socket } from "@/lib/socketClient";
-import { getBoard } from "@/utils/utils";
+import { getBoardId } from "@/utils/utils";
 import { redirect } from "next/navigation";
 import { useState } from "react";
 import { FaArrowUp } from "react-icons/fa";
@@ -23,7 +23,7 @@ export default function JoinBoardForm({
     e.preventDefault();
 
     try {
-      setBoardInfo(await getBoard(boardName, boardPassword)); //Checking if board exists by fetching it.
+      setBoardInfo(await getBoardId(boardName, boardPassword)); //Checking if board exists by fetching it.
 
       setBoardName("");
       setBoardPassword("");
@@ -33,9 +33,9 @@ export default function JoinBoardForm({
   };
 
   if(boardInfo.length !== 0){
-    let borderId = boardInfo[0].boardId
-    socket.emit("join-room", borderId )
-    redirect(`/board?id=${borderId}`);
+    let boardId = boardInfo[0].boardId
+    socket.emit("join-room", boardId )
+    redirect(`/board/${boardId}`);
   }
 
   return (
