@@ -1,14 +1,31 @@
+"use client"
+
 import { BoardProps } from "@/app/access-board/page";
+import { createNewBoard } from "@/utils/utils";
+import { redirect } from "next/navigation";
+import { useState } from "react";
 import { FaArrowUp } from "react-icons/fa";
 
-export default function CreateBoardForm({
-  boardName,
-  setBoardName,
-  boardPassword,
-  setBoardPassword,
-}: BoardProps) {
+export default function CreateBoardForm(
+  { boardName, setBoardName, boardPassword, setBoardPassword }: BoardProps,
+) {
+  const [newBoardId, setNewBoardId] = useState<string>("");
+
+  const createNewBoardFunc = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      setNewBoardId(await createNewBoard(boardName, boardPassword));
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  if(newBoardId !== ""){
+    redirect(`/board?id=${newBoardId}`);
+  }
+
   return (
-    <form action="" className="flex flex-col items-center">
+    <form onSubmit={createNewBoardFunc} className="flex flex-col items-center">
       <h1>Create Board</h1>
 
       <input
