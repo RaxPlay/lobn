@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 import "./globals.css";
-import NavBar from "./components/navbar";
+import NavBar from "./components/auth/auth-navbar";
 
 export const metadata: Metadata = {
   title: "Kanban Board",
@@ -19,10 +19,6 @@ export default function RootLayout({
       className="h-full antialiased"
     >
       <body className="min-h-full flex flex-col">
-        <header>
-          <NavBar></NavBar>
-        </header>
-
         {children}
       </body>  
     </html>
