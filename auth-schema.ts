@@ -5,7 +5,6 @@ export const BoardTable = pgTable("boards", {
   boardId: uuid("board_id").defaultRandom().primaryKey(),
   boardName: varchar("board_name", { length: 50 }).notNull(),
   boardPassword: varchar("board_password", { length: 100} ).notNull(),
-  boardCreator: text("board_creator").references(() => user.name),
   //When selecting, left join tasks
 })
 
@@ -137,12 +136,7 @@ export const CommentRelations = relations(CommentsTable, ({one}) => ({
   }),
 }));
 
-export const BoardRelations = relations(BoardTable, ({one, many}) => ({
-  creator: one(user, {
-    fields: [BoardTable.boardCreator],
-    references: [user.name]
-  }),
-  members: many(user),
+export const BoardRelations = relations(BoardTable, ({many}) => ({
   tasks: many(TaskTable),
   comments: many(CommentsTable)
 }))
