@@ -14,8 +14,9 @@ app.prepare().then(() => {
   const io = new Server(httpServer);
 
   io.on('connection', (socket) => {
-    socket.on("join-room", () => {
-
+    socket.on("join-room", (board_id) => {
+      socket.join(board_id); 
+      console.log(`user ${socket.id} joined board #${board_id}`) //Checking if user joined board
     });
   });
 

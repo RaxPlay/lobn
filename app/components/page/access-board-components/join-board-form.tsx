@@ -1,11 +1,45 @@
+"use client";
+
 import { BoardProps } from "@/app/access-board/page";
+import { socket } from "@/lib/socketClient";
+import { getBoard } from "@/utils/utils";
+import { redirect } from "next/navigation";
+import { useState } from "react";
 import { FaArrowUp } from "react-icons/fa";
 
-export default function JoinBoardForm(
-  { boardName, setBoardName, boardPassword, setBoardPassword }: BoardProps
-) {
+interface BoardInfo {
+  boardId: string;
+}
+
+export default function JoinBoardForm({
+  boardName,
+  setBoardName,
+  boardPassword,
+  setBoardPassword,
+}: BoardProps) {
+  const [boardInfo, setBoardInfo] = useState<BoardInfo[]>([]);
+
+  const joinBoard = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    try {
+      setBoardInfo(await getBoard(boardName, boardPassword)); //Checking if board exists by fetching it.
+
+      setBoardName("");
+      setBoardPassword("");
+    } catch (error) {
+      
+    }
+  };
+
+  if(boardInfo.length !== 0){
+    let borderId = boardInfo[0].boardId
+    socket.emit("join-room", borderId )
+    redirect(`/board?id=${borderId}`);
+  }
+
   return (
-    <form action="" className="flex flex-col items-center">
+    <form onSubmit={joinBoard} className="flex flex-col items-center">
       <h1>Join Board</h1>
 
       <input
@@ -18,7 +52,7 @@ export default function JoinBoardForm(
         className="mt-2"
       />
 
-      <div className="flex w-[85%] gap-3">
+      
         <input
           type="text"
           placeholder="Board Password"
@@ -26,13 +60,12 @@ export default function JoinBoardForm(
           onChange={(e) => {
             setBoardPassword(e.target.value);
           }}
-          className="mt-3 w-[80%]"
+          className="mt-3"
         />
 
-        <button type="submit" className="mt-3 flex justify-center items-center">
+        <button type="submit" className="mt-3 flex justify-center items-center submit-button">
           <FaArrowUp />
         </button>
-      </div>
     </form>
   );
 }

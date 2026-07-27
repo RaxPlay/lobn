@@ -9,6 +9,8 @@ export interface BoardProps {
   setBoardName: React.Dispatch<React.SetStateAction<string>>;
   boardPassword: string;
   setBoardPassword: React.Dispatch<React.SetStateAction<string>>;
+  boardId: string;
+  setBoardId: React.Dispatch<React.SetStateAction<string>>;
 }
 
 export default function AccessBoard() {
@@ -16,6 +18,7 @@ export default function AccessBoard() {
   const [joinBoardPassword, setJoinBoardPassword] = useState<string>("");
   const [createBoardName, setCreateBoardName] = useState<string>("");
   const [createBoardPassword, setCreateBoardPassword] = useState<string>("");
+  const [newBoardId, setNewBoardId] = useState<string>("");
 
   return (
     <div className="flex justify-center text-center">
@@ -25,6 +28,8 @@ export default function AccessBoard() {
           setBoardName={setJoinBoardName}
           boardPassword={joinBoardPassword}
           setBoardPassword={setJoinBoardPassword}
+          boardId={newBoardId}
+          setBoardId={setNewBoardId}
         ></JoinBoardForm>
 
         <p className="mt-4">Or</p>
@@ -34,6 +39,8 @@ export default function AccessBoard() {
           setBoardName={setCreateBoardName}
           boardPassword={createBoardPassword}
           setBoardPassword={setCreateBoardPassword}
+          boardId={newBoardId}
+          setBoardId={setNewBoardId}
         ></CreateBoardForm>
       </div>
     </div>
