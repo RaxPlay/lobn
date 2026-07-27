@@ -46,3 +46,7 @@ button:hover{
   border: 1px solid var(--container-border);
   border-radius: 6px;
 }
+
+.submit-button{
+  padding: 7px 0px;
+}
