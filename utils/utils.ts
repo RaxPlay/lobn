@@ -4,7 +4,6 @@ import { db } from "@/app/src";
 import { BoardTable } from "@/auth-schema";
 import { and, eq } from "drizzle-orm";
 
-
 //Database related functions
 export const createNewBoard = async (
   newBoardName: string,
@@ -23,7 +22,7 @@ export const createNewBoard = async (
   return newBoard[0].boardId;
 };
 
-export const getBoard = async (boardName: string, boardPassword: string) => {
+export const getBoardId = async (boardName: string, boardPassword: string) => {
   const board = await db
     .select({
       boardId: BoardTable.boardId,
@@ -36,6 +35,16 @@ export const getBoard = async (boardName: string, boardPassword: string) => {
       ),
     );
 
-  console.log(board)
   return board;
+};
+
+export const getBoardName = async (boardId: string) => {
+  const board = await db
+    .select({
+      boardName: BoardTable.boardName,
+    })
+    .from(BoardTable)
+    .where(eq(BoardTable.boardId, boardId));
+
+  return board[0].boardName;
 };
