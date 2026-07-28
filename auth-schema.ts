@@ -5,8 +5,15 @@ export const BoardTable = pgTable("boards", {
   boardId: uuid("board_id").defaultRandom().primaryKey(),
   boardName: varchar("board_name", { length: 50 }).notNull(),
   boardPassword: varchar("board_password", { length: 100} ).notNull(),
+  boardCreator: text("board_creator").references(() => user.name).notNull(),
   //When selecting, left join tasks
-})
+});
+
+export const MembersTable = pgTable("members", {
+  memberId: text("member_id").references(() => user.id).notNull(),
+  memberName: text("member_name").references(() => user.name).notNull(),
+  partOf: uuid("part_of").references(() => BoardTable.boardId).notNull(),
+});
 
 export const TaskTable = pgTable("tasks", {
   taskId: uuid("task_id").defaultRandom().primaryKey(),
@@ -137,6 +144,7 @@ export const CommentRelations = relations(CommentsTable, ({one}) => ({
 }));
 
 export const BoardRelations = relations(BoardTable, ({many}) => ({
+  members: many(MembersTable),
   tasks: many(TaskTable),
   comments: many(CommentsTable)
 }))
