@@ -1,8 +1,6 @@
 import BoardMainPage from "@/app/components/page/board-components/board-client-main-page";
-
-interface BoardInfo {
-  boardName: string;
-}
+import { getSession } from "@/lib/auth";
+import { redirect } from "next/navigation";
 
 type Props = {
   params: Promise<{boardId: string}>
@@ -10,10 +8,15 @@ type Props = {
 
 export default async function Board({ params }: Props) {
   const { boardId } = await params;
+  const session = await getSession();
+
+  if(!session) redirect("/sign-in");
+
+  const userName = session.user.name;
   
   return (
     <>
-      <BoardMainPage boardId={boardId}/>
+      <BoardMainPage boardId={boardId} userName={userName}/>
     </>
   );
 }

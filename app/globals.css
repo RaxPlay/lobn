@@ -17,6 +17,11 @@ body {
 
 h1{
   font-size: 1.8rem;
+  font-weight: 600;
+}
+
+h2{
+  font-size: 1.4rem;
 }
 
 input, button{
@@ -24,8 +29,7 @@ input, button{
   
   border: 1px solid var(--element-border);
   border-radius: 6px;
-  
-  width: 85%;
+
   padding: 4px 5px;
 
   transition: 300ms;
@@ -47,6 +51,26 @@ button:hover{
   border-radius: 6px;
 }
 
-.submit-button{
-  padding: 7px 0px;
+#kan-ban-container{
+  display: flex;
+  gap: 10px;
+  padding: 5px;
+}
+
+#board-element{
+  margin-top: 20px;
+  border: 1px solid var(--element-border);
+  border-radius: 6px;
+  width: 33%;
+  min-height: 100px;
+  height: fit-content;
+}
+
+.submit-btn, .board-input{
+  width: 200px;
+  height: 35px;
+}
+
+.back-home-btn{
+ padding: 7px 7px; 
 }
