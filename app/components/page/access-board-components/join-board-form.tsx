@@ -1,10 +1,10 @@
 "use client";
 
-import { BoardProps } from "@/app/access-board/page";
+import { BoardProps } from "./access-board-main-page";
 import { socket } from "@/lib/socketClient";
 import { getBoardId } from "@/utils/utils";
 import { redirect } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaArrowUp } from "react-icons/fa";
 
 interface BoardInfo {
@@ -16,6 +16,8 @@ export default function JoinBoardForm({
   setBoardName,
   boardPassword,
   setBoardPassword,
+  userName,
+  userId,
 }: BoardProps) {
   const [boardInfo, setBoardInfo] = useState<BoardInfo[]>([]);
 
@@ -27,16 +29,19 @@ export default function JoinBoardForm({
 
       setBoardName("");
       setBoardPassword("");
-    } catch (error) {
-      
-    }
+    } catch (error) {}
   };
 
-  if(boardInfo.length !== 0){
-    let boardId = boardInfo[0].boardId
-    socket.emit("join-room", boardId )
-    redirect(`/board/${boardId}`);
-  }
+  useEffect(() => {
+    const redirectUser = async () => {
+      if (boardInfo.length !== 0) {
+        let boardId = boardInfo[0].boardId;
+        await socket.emit("join-room", boardId);
+        redirect(`/board/${boardId}`);
+      }
+    };
+    redirectUser();
+  }, [boardInfo]);
 
   return (
     <form onSubmit={joinBoard} className="flex flex-col items-center">
@@ -52,20 +57,22 @@ export default function JoinBoardForm({
         className="mt-2"
       />
 
-      
-        <input
-          type="text"
-          placeholder="Board Password"
-          value={boardPassword}
-          onChange={(e) => {
-            setBoardPassword(e.target.value);
-          }}
-          className="mt-3"
-        />
+      <input
+        type="text"
+        placeholder="Board Password"
+        value={boardPassword}
+        onChange={(e) => {
+          setBoardPassword(e.target.value);
+        }}
+        className="mt-3"
+      />
 
-        <button type="submit" className="mt-3 flex justify-center items-center submit-button">
-          <FaArrowUp />
-        </button>
+      <button
+        type="submit"
+        className="mt-3 flex justify-center items-center submit-button"
+      >
+        <FaArrowUp />
+      </button>
     </form>
   );
 }

@@ -11,9 +11,16 @@ export interface BoardProps {
   setBoardPassword: React.Dispatch<React.SetStateAction<string>>;
   boardId: string;
   setBoardId: React.Dispatch<React.SetStateAction<string>>;
+  userName: string 
+  userId: string 
 }
 
-export default function AccessBoardMainPage() {
+export interface Props {
+  userName: string 
+  userId: string 
+}
+
+export default function AccessBoardMainPage({ userName, userId }: Props) {
   const [joinBoardName, setJoinBoardName] = useState<string>("");
   const [joinBoardPassword, setJoinBoardPassword] = useState<string>("");
   const [createBoardName, setCreateBoardName] = useState<string>("");
@@ -30,6 +37,8 @@ export default function AccessBoardMainPage() {
           setBoardPassword={setJoinBoardPassword}
           boardId={newBoardId}
           setBoardId={setNewBoardId}
+          userName={userName}
+          userId={userId}
         ></JoinBoardForm>
 
         <p className="mt-4">Or</p>
@@ -41,6 +50,8 @@ export default function AccessBoardMainPage() {
           setBoardPassword={setCreateBoardPassword}
           boardId={newBoardId}
           setBoardId={setNewBoardId}
+          userName={userName}
+          userId={userId}
         ></CreateBoardForm>
       </div>
     </div>

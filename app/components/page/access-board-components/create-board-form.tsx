@@ -1,18 +1,18 @@
 "use client"
 
-import { BoardProps } from "@/app/access-board/page";
+import { BoardProps } from "./access-board-main-page";
 import { socket } from "@/lib/socketClient";
 import { createNewBoard } from "@/utils/utils";
 import { redirect } from "next/navigation";
 import { FaArrowUp } from "react-icons/fa";
 
 export default function CreateBoardForm(
-  { boardName, setBoardName, boardPassword, setBoardPassword, boardId, setBoardId }: BoardProps,
+  { boardName, setBoardName, boardPassword, setBoardPassword, boardId, setBoardId, userName }: BoardProps,
 ) {
   const createNewBoardFunc = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      setBoardId(await createNewBoard(boardName, boardPassword));
+      setBoardId(await createNewBoard(boardName, boardPassword, userName));
 
       setBoardName("");
       setBoardPassword("");
