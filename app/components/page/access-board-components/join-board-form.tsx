@@ -54,7 +54,7 @@ export default function JoinBoardForm({
         onChange={(e) => {
           setBoardName(e.target.value);
         }}
-        className="mt-2"
+        className="mt-2 board-input"
       />
 
       <input
@@ -64,12 +64,12 @@ export default function JoinBoardForm({
         onChange={(e) => {
           setBoardPassword(e.target.value);
         }}
-        className="mt-3"
+        className="mt-3 board-input"
       />
 
       <button
         type="submit"
-        className="mt-3 flex justify-center items-center submit-button"
+        className="mt-3 flex justify-center items-center submit-btn"
       >
         <FaArrowUp />
       </button>
