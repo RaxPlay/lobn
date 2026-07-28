@@ -36,6 +36,13 @@
       "when": 1785110636625,
       "tag": "0004_red_skullbuster",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1785206655768,
+      "tag": "0005_luxuriant_purifiers",
+      "breakpoints": true
     }
   ]
 }

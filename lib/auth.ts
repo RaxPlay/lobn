@@ -5,20 +5,23 @@ import { nextCookies } from "better-auth/next-js";
 import { headers } from "next/headers";
 
 export const auth = betterAuth({
-  database: drizzleAdapter(db, { 
+  database: drizzleAdapter(db, {
     provider: "pg",
   }),
-  pages: [nextCookies()],
-  emailAndPassword: { 
+  plugins: [nextCookies()],
+  emailAndPassword: {
     enabled: true,
-  }, 
+  },
   socialProviders: {
     github: {
-      clientId: process.env.GITHUB_CLIENT_ID as string, 
-      clientSecret: process.env.GITHUB_CLIENT_SECRET as string, 
-    }, 
-  }, 
+      clientId: process.env.GITHUB_CLIENT_ID as string,
+      clientSecret: process.env.GITHUB_CLIENT_SECRET as string,
+    },
+  },
 });
-export const getSession = async () => auth.api.getSession({	
-	headers: await headers(),
-})
+export const getSession = async () => {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+  return session;
+};

@@ -1,19 +1,21 @@
 "use server";
 
 import { db } from "@/app/src";
-import { BoardTable } from "@/auth-schema";
-import { and, eq } from "drizzle-orm";
+import { BoardTable, MembersTable } from "@/auth-schema";
+import { and, eq, ne } from "drizzle-orm";
 
 //Database related functions
 export const createNewBoard = async (
   newBoardName: string,
   newBoardPassword: string,
+  boardCreator: string,
 ) => {
   const newBoard = await db
     .insert(BoardTable)
     .values({
       boardName: newBoardName,
       boardPassword: newBoardPassword,
+      boardCreator,
     })
     .returning({
       boardId: BoardTable.boardId,
@@ -47,4 +49,24 @@ export const getBoardName = async (boardId: string) => {
     .where(eq(BoardTable.boardId, boardId));
 
   return board[0].boardName;
+};
+
+export const joinBoard = async (
+  boardId: string,
+  newMemberName: string,
+  newMemberId: string,
+) => {
+  const checkExisting = await db.select().from(MembersTable).where(and(ne(MembersTable.memberId, newMemberId), ne(MembersTable.partOf, boardId)));
+
+  if(checkExisting.length > 0){
+    return;
+  }
+
+  await db
+    .insert(MembersTable)
+    .values({
+      memberId: newMemberId,
+      memberName: newMemberName,
+      partOf: boardId,
+    })
 };
