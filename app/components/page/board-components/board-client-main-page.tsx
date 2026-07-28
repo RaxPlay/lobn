@@ -1,6 +1,6 @@
 "use client";
 
-import { getBoardName } from "@/utils/utils";
+import { createNewTask, getBoardName, getTasks } from "@/utils/utils";
 import { useEffect, useState } from "react";
 import Todo from "./todo-component";
 import Doing from "./doing-component";
@@ -11,21 +11,32 @@ import { redirect } from "next/navigation";
 
 interface Props {
   boardId: string;
-  userName: string
+  userName: string;
+}
+
+export interface DisplayTasks {
+  taskId: string;
+  taskContent: string;
+  taskCreator: string;
+  createdAt: Date;
 }
 
 export default function BoardMainPage({ boardId, userName }: Props) {
   const [boardName, setBoardName] = useState<string>("");
   const [newTask, setNewTask] = useState<string>("");
+  const [displayTasks, setDisplayTasks] = useState<DisplayTasks[]>([]);
 
   useEffect(() => {
-    const fetchBoardName = async () => {
+    const fetchContent = async () => {
       setBoardName(await getBoardName(boardId));
+      setDisplayTasks(await getTasks(boardId))
     };
-    fetchBoardName();
+    fetchContent();
   }, []);
 
   const goHomeFunc = () => redirect(`/home/${userName}`);
+
+  console.log(displayTasks);
 
   return (
     <div className="flex justify-center">
@@ -33,17 +44,20 @@ export default function BoardMainPage({ boardId, userName }: Props) {
         <header className="flex justify-center items-center">
           <h1>{boardName}</h1>
 
-          <button className="back-home-btn relative left-[30%]" onClick={goHomeFunc}>
+          <button
+            className="back-home-btn relative left-[30%]"
+            onClick={goHomeFunc}
+          >
             <FaHouse />
           </button>
         </header>
 
         <div className="flex justify-center mt-5">
-          <AddTaskForm newTask={newTask} setNewTask={setNewTask} />
+          <AddTaskForm newTask={newTask} setNewTask={setNewTask} setDisplayTasks={setDisplayTasks} boardId={boardId} userName={userName}/>
         </div>
 
         <div id="kan-ban-container">
-          <Todo />
+          <Todo displayTasks={displayTasks}/>
           <Doing />
           <Done />
         </div>

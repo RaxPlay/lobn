@@ -1,7 +1,7 @@
 "use server";
 
 import { db } from "@/app/src";
-import { BoardTable, MembersTable } from "@/auth-schema";
+import { BoardTable, MembersTable, TaskTable } from "@/auth-schema";
 import { and, eq, ne } from "drizzle-orm";
 
 //Database related functions
@@ -56,17 +56,59 @@ export const joinBoard = async (
   newMemberName: string,
   newMemberId: string,
 ) => {
-  const checkExisting = await db.select().from(MembersTable).where(and(ne(MembersTable.memberId, newMemberId), ne(MembersTable.partOf, boardId)));
+  const checkExisting = await db
+    .select()
+    .from(MembersTable)
+    .where(
+      and(
+        ne(MembersTable.memberId, newMemberId),
+        ne(MembersTable.partOf, boardId),
+      ),
+    );
 
-  if(checkExisting.length > 0){
+  if (checkExisting.length > 0) {
     return;
   }
 
-  await db
-    .insert(MembersTable)
+  await db.insert(MembersTable).values({
+    memberId: newMemberId,
+    memberName: newMemberName,
+    partOf: boardId,
+  });
+};
+
+export const createNewTask = async (
+  taskContent: string,
+  taskCreator: string,
+  boardId: string,
+) => {
+  const task = await db
+    .insert(TaskTable)
     .values({
-      memberId: newMemberId,
-      memberName: newMemberName,
-      partOf: boardId,
+      taskContent,
+      taskCreator,
+      boardId,
     })
+    .returning({
+      taskId: TaskTable.taskId,
+      taskContent: TaskTable.taskContent,
+      taskCreator: TaskTable.taskCreator,
+      createdAt: TaskTable.createdAt,
+    });
+
+  return task;
+};
+
+export const getTasks = async (boardId: string) => {
+  const allTasks = await db
+    .select({
+      taskId: TaskTable.taskId,
+      taskContent: TaskTable.taskContent,
+      taskCreator: TaskTable.taskCreator,
+      createdAt: TaskTable.createdAt,
+    })
+    .from(TaskTable)
+    .where(eq(TaskTable.boardId, boardId));
+
+  return allTasks
 };
