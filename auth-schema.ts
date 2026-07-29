@@ -20,18 +20,16 @@ export const TaskTable = pgTable("tasks", {
   taskContent: varchar("task_content", { length: 150 }).notNull(),
   taskCreator: text("task_creator").references(() => user.name).notNull(),
   boardId: uuid("board_id").references(() => BoardTable.boardId).notNull(),
-  createdAt: timestamp("created_at").defaultNow().notNull(),
   //When selecting, left join comments
 });
 
-export const CommentsTable = pgTable("task_comments", {
-  commentId: uuid("comment_id").defaultRandom().primaryKey(),
-  commmentContent: varchar("comment_content", { length: 255 }).notNull(),
-  commentCreator: text("comment_creator").references(() => user.name),
-  originalTaskId: uuid("original_task_id").references(() => TaskTable.taskId),
-  boardId: uuid("board_id").references(() => BoardTable.boardId).notNull(),
-  createdAt: timestamp("created_at").defaultNow().notNull(),
-})
+// export const CommentsTable = pgTable("task_comments", {
+//   commentId: uuid("comment_id").defaultRandom().primaryKey(),
+//   commmentContent: varchar("comment_content", { length: 255 }).notNull(),
+//   commentCreator: text("comment_creator").references(() => user.name),
+//   originalTaskId: uuid("original_task_id").references(() => TaskTable.taskId),
+//   boardId: uuid("board_id").references(() => BoardTable.boardId).notNull(),
+// })
 
 export const user = pgTable("user", {
   id: text("id").primaryKey(),
@@ -129,22 +127,22 @@ export const TaskRelations = relations(TaskTable, ({one, many}) => ({
     fields: [TaskTable.taskCreator],
     references: [user.name],
   }),
-  comments: many(CommentsTable),
+  //comments: many(CommentsTable),
 }));
 
-export const CommentRelations = relations(CommentsTable, ({one}) => ({
-  user: one(user, {
-    fields: [CommentsTable.commentCreator],
-    references: [user.name],
-  }),
-  task: one(TaskTable, {
-    fields: [CommentsTable.originalTaskId],
-    references: [TaskTable.taskId],
-  }),
-}));
+// export const CommentRelations = relations(CommentsTable, ({one}) => ({
+//   user: one(user, {
+//     fields: [CommentsTable.commentCreator],
+//     references: [user.name],
+//   }),
+//   task: one(TaskTable, {
+//     fields: [CommentsTable.originalTaskId],
+//     references: [TaskTable.taskId],
+//   }),
+// }));
 
 export const BoardRelations = relations(BoardTable, ({many}) => ({
   members: many(MembersTable),
   tasks: many(TaskTable),
-  comments: many(CommentsTable)
+  //comments: many(CommentsTable)
 }))
