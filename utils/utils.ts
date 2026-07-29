@@ -51,11 +51,7 @@ export const getBoardName = async (boardId: string) => {
   return board[0].boardName;
 };
 
-export const joinBoard = async (
-  boardId: string,
-  newMemberName: string,
-  newMemberId: string,
-) => {
+export const joinBoard = async (boardId: string, newMemberName: string, newMemberId: string) => {
   const checkExisting = await db
     .select()
     .from(MembersTable)
@@ -108,5 +104,5 @@ export const getTasks = async (boardId: string) => {
     .from(TaskTable)
     .where(eq(TaskTable.boardId, boardId));
 
-  return allTasks
+  return allTasks;
 };

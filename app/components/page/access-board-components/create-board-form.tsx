@@ -2,8 +2,9 @@
 
 import { BoardProps } from "./access-board-main-page";
 import { socket } from "@/lib/socketClient";
-import { createNewBoard } from "@/utils/utils";
+import { createNewBoard, joinBoard } from "@/utils/utils";
 import { redirect } from "next/navigation";
+import { useEffect } from "react";
 import { FaArrowUp } from "react-icons/fa";
 
 export default function CreateBoardForm({
@@ -14,6 +15,7 @@ export default function CreateBoardForm({
   boardId,
   setBoardId,
   userName,
+  userId,
 }: BoardProps) {
   const createNewBoardFunc = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -26,11 +28,17 @@ export default function CreateBoardForm({
       console.error(err);
     }
   };
-
-  if (boardId !== "") {
-    socket.emit("join-room", { boardId, userName });
-    redirect(`/board/${boardId}`);
-  }
+  
+  useEffect(() => {
+    const redirectUser = async () => {
+      if (boardId !== "") {
+        socket.emit("join-room", { boardId, userName });
+        await joinBoard(boardId, userName, userId);
+        redirect(`/board/${boardId}`);
+      }
+    };
+    redirectUser();
+  }, [boardId]);
 
   return (
     <form onSubmit={createNewBoardFunc} className="flex flex-col items-center">
@@ -55,7 +63,10 @@ export default function CreateBoardForm({
         className="mt-3 w-[80%] board-input"
       />
 
-      <button type="submit" className="mt-3 flex justify-center items-center submit-btn">
+      <button
+        type="submit"
+        className="mt-3 flex justify-center items-center submit-btn"
+      >
         <FaArrowUp />
       </button>
     </form>

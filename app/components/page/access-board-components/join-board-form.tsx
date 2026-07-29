@@ -2,7 +2,7 @@
 
 import { BoardProps } from "./access-board-main-page";
 import { socket } from "@/lib/socketClient";
-import { getBoardId } from "@/utils/utils";
+import { getBoardId, joinBoard } from "@/utils/utils";
 import { redirect } from "next/navigation";
 import { useEffect, useState } from "react";
 import { FaArrowUp } from "react-icons/fa";
@@ -21,22 +21,25 @@ export default function JoinBoardForm({
 }: BoardProps) {
   const [boardInfo, setBoardInfo] = useState<BoardInfo[]>([]);
 
-  const joinBoard = async (e: React.FormEvent) => {
+  const joinBoardFunc = async (e: React.FormEvent) => {
     e.preventDefault();
 
     try {
-      setBoardInfo(await getBoardId(boardName, boardPassword)); //Checking if board exists by fetching it.
+      setBoardInfo(await getBoardId(boardName, boardPassword)); // Checking if board exists by fetching it.
 
       setBoardName("");
       setBoardPassword("");
-    } catch (error) {}
+    } catch (error) {
+
+    }
   };
 
   useEffect(() => {
     const redirectUser = async () => {
       if (boardInfo.length !== 0) {
         let boardId = boardInfo[0].boardId;
-        await socket.emit("join-room", boardId);
+        socket.emit("join-room", { board_id: boardId, userName });
+        await joinBoard(boardId, userName, userId)
         redirect(`/board/${boardId}`);
       }
     };
@@ -44,7 +47,7 @@ export default function JoinBoardForm({
   }, [boardInfo]);
 
   return (
-    <form onSubmit={joinBoard} className="flex flex-col items-center">
+    <form onSubmit={joinBoardFunc} className="flex flex-col items-center">
       <h1>Join Board</h1>
 
       <input

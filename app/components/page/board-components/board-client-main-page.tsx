@@ -1,6 +1,6 @@
 "use client";
 
-import { createNewTask, getBoardName, getTasks } from "@/utils/utils";
+import { getBoardName, getTasks } from "@/utils/utils";
 import { useEffect, useState } from "react";
 import Todo from "./todo-component";
 import Doing from "./doing-component";
@@ -8,6 +8,7 @@ import Done from "./done-component";
 import AddTaskForm from "./add-task-form";
 import { FaHouse } from "react-icons/fa6";
 import { redirect } from "next/navigation";
+import { socket } from "@/lib/socketClient";
 
 interface Props {
   boardId: string;
@@ -15,10 +16,9 @@ interface Props {
 }
 
 export interface DisplayTasks {
-  taskId: string;
   taskContent: string;
   taskCreator: string;
-  createdAt: Date;
+  boardId: string;
 }
 
 export default function BoardMainPage({ boardId, userName }: Props) {
