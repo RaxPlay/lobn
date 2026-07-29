@@ -3,12 +3,28 @@
 import { redirect } from "next/navigation";
 import { FaUser } from "react-icons/fa";
 import { GrLogin } from "react-icons/gr";
+import DisplayBoards from "./display-users-boards";
+import { useEffect, useState } from "react";
+import { getUsersBoard } from "@/utils/utils";
 
 interface Props {
   userName: string;
+  userId: string
 }
 
-export default function HomeMainPage({ userName }: Props) {
+export interface Boards {
+  partOf: string
+}
+
+export default function HomeMainPage({ userName, userId }: Props) {
+  const [displayBoards, setDisplayBoards] = useState<Boards[]>([]);
+
+  useEffect(() => {
+    const getBoardsFunc = async() => {
+      setDisplayBoards(await getUsersBoard(userId))
+    }
+    getBoardsFunc()
+  }, [])
 
   const goToSettings = () => redirect(`/user-settings/${userName}`)
   const goJoinBoard = () => redirect(`/access-board`)
@@ -29,6 +45,10 @@ export default function HomeMainPage({ userName }: Props) {
             <FaUser/>
           </button>
         </header>
+
+        <section>
+          <DisplayBoards displayBoards={displayBoards} setDisplayBoards={setDisplayBoards}/>
+        </section>
       </div>
     </div>
   );

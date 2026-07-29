@@ -24,6 +24,17 @@ export const createNewBoard = async (
   return newBoard[0].boardId;
 };
 
+export const getUsersBoard = async (userId: string) => {
+  const boards = db
+    .select({
+      partOf: MembersTable.partOf,
+    })
+    .from(MembersTable)
+    .where(eq(MembersTable.memberId, userId));
+
+  return boards
+};
+
 export const getBoardId = async (boardName: string, boardPassword: string) => {
   const board = await db
     .select({
@@ -51,7 +62,11 @@ export const getBoardName = async (boardId: string) => {
   return board[0].boardName;
 };
 
-export const joinBoard = async (boardId: string, newMemberName: string, newMemberId: string) => {
+export const joinBoard = async (
+  boardId: string,
+  newMemberName: string,
+  newMemberId: string,
+) => {
   const checkExisting = await db
     .select()
     .from(MembersTable)
