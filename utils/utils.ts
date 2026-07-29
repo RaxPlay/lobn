@@ -93,7 +93,6 @@ export const createNewTask = async (
       taskId: TaskTable.taskId,
       taskContent: TaskTable.taskContent,
       taskCreator: TaskTable.taskCreator,
-      createdAt: TaskTable.createdAt,
     });
 
   return task;
@@ -102,10 +101,9 @@ export const createNewTask = async (
 export const getTasks = async (boardId: string) => {
   const allTasks = await db
     .select({
-      taskId: TaskTable.taskId,
       taskContent: TaskTable.taskContent,
       taskCreator: TaskTable.taskCreator,
-      createdAt: TaskTable.createdAt,
+      boardId: TaskTable.boardId,
     })
     .from(TaskTable)
     .where(eq(TaskTable.boardId, boardId));
