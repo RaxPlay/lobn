@@ -6,5 +6,7 @@ export default async function page() {
 
   if(!session) redirect("/sign-in");
 
-  else if(session) redirect("/access-board");
+  const userName = session.user.name
+
+  if(session) redirect(`/home/${userName}`);
 }

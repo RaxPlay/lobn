@@ -18,7 +18,7 @@ export async function signUpAction(formData: FormData){
 		},
 	}),
 
-	redirect("/access-board");
+	redirect("/");
 }
 
 export async function signInAction(formData: FormData){
@@ -32,7 +32,7 @@ export async function signInAction(formData: FormData){
 		},
 	}),
 
-	redirect("/access-board");
+	redirect("/");
 }
 
 export async function signOutAction(){
