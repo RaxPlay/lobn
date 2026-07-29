@@ -66,6 +66,14 @@ button:hover{
   height: fit-content;
 }
 
+#task{
+  border: 1px solid var(--element-border);
+  border-radius: 6px;
+  background-color: var(--element-bg);
+  text-align: left;
+  padding: 4px 8px;
+}
+
 .submit-btn, .board-input{
   width: 200px;
   height: 35px;
