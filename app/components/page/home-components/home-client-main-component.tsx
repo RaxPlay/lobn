@@ -5,7 +5,7 @@ import { FaUser } from "react-icons/fa";
 import { GrLogin } from "react-icons/gr";
 import DisplayBoards from "./display-users-boards";
 import { useEffect, useState } from "react";
-import { getUsersBoard } from "@/utils/utils";
+import { getBoardId, getUsersBoard } from "@/utils/utils";
 
 interface Props {
   userName: string;
@@ -22,10 +22,10 @@ export default function HomeMainPage({ userName, userId }: Props) {
   const [displayBoards, setDisplayBoards] = useState<Boards[]>([]);
 
   useEffect(() => {
-    const getBoardsFunc = async() => {
+    const getBoardsInfo = async() => {
       setDisplayBoards(await getUsersBoard(userId))
     }
-    getBoardsFunc()
+    getBoardsInfo()
   }, [])
 
   const goToSettings = () => redirect(`/user-settings/${userName}`)
@@ -49,7 +49,7 @@ export default function HomeMainPage({ userName, userId }: Props) {
         </header>
 
         <section>
-          <DisplayBoards displayBoards={displayBoards} setDisplayBoards={setDisplayBoards}/>
+          <DisplayBoards displayBoards={displayBoards}/>
         </section>
       </div>
     </div>

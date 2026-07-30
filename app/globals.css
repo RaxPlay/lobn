@@ -7,7 +7,11 @@
   --container-border: #494949;
   --element-bg: #383838;
   --element-border: #444343;
+  --board-display-bg: #1c1c1c;
+  --board-display-border: #3f3f3f;
 }
+
+/*Defaults*/
 
 body {
   background: var(--background);
@@ -44,6 +48,8 @@ button:hover{
   border-color: #606060;
 }
 
+/*Containers*/
+
 #container{
   background-color: var(--container-bg);
   
@@ -56,6 +62,23 @@ button:hover{
   gap: 10px;
   padding: 5px;
 }
+
+#boards-container{
+  background-color: var(--board-display-bg);
+
+  border: 1px solid var(--board-display-border);
+  border-radius: 6px;
+
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  
+  padding: 10px 30px;
+  gap: 30px;
+  width: 70%;
+  margin: 1rem auto;
+}
+
+/*Elements*/
 
 #board-element{
   margin-top: 20px;
@@ -73,6 +96,20 @@ button:hover{
   text-align: left;
   padding: 4px 8px;
 }
+
+#board{
+  border: 1px solid var(--element-border);
+  border-radius: 6px;
+  background-color: var(--element-bg);
+
+  transition: 300ms;
+}
+
+#board:hover{
+  transform: scale(1.05);
+}
+
+/*Details*/
 
 .submit-btn, .board-input{
   width: 200px;

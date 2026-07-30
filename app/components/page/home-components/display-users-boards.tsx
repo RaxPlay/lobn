@@ -1,20 +1,22 @@
-"use client"
+"use client";
 
-import { Boards } from "./home-client-main-component"
+import { redirect } from "next/navigation";
+import { Boards } from "./home-client-main-component";
 
 interface Props {
   displayBoards: Boards[];
-  setDisplayBoards: React.Dispatch<React.SetStateAction<Boards[]>>
 }
 
-export default function DisplayBoards({displayBoards, setDisplayBoards}: Props) {  
+export default function DisplayBoards({
+  displayBoards
+}: Props) {
   return (
-    <div>
+    <div id="boards-container">
       {displayBoards.map((board) => (
-        <div key={board.membershipId}>
-          {board.partOfName}
+        <div key={board.membershipId} id="board" onClick={() => {redirect(`/board/${board.partOf}`)}}>
+          <h2>{board.partOfName}</h2>
         </div>
       ))}
     </div>
-  )
+  );
 }
