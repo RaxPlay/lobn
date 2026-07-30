@@ -1,8 +1,10 @@
 "use client";
 
 import { useState } from "react";
+import { FaHome } from "react-icons/fa";
 import JoinBoardForm from "./join-board-form";
 import CreateBoardForm from "./create-board-form";
+import { redirect } from "next/navigation";
 
 export interface BoardProps {
   boardName: string;
@@ -27,9 +29,18 @@ export default function AccessBoardMainPage({ userName, userId }: Props) {
   const [createBoardPassword, setCreateBoardPassword] = useState<string>("");
   const [newBoardId, setNewBoardId] = useState<string>("");
 
+  const goHome = () => {
+    redirect(`/home/${userName}`);
+  }
+
   return (
     <div className="flex justify-center text-center">
       <div id="container" className="w-120 mt-40 pt-4 pb-8">
+        <header className="flex justify-end px-4">
+          <button onClick={goHome}>
+            <FaHome/>
+          </button>
+        </header>
         <JoinBoardForm
           boardName={joinBoardName}
           setBoardName={setJoinBoardName}
