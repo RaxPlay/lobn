@@ -13,7 +13,9 @@ interface Props {
 }
 
 export interface Boards {
-  partOf: string
+  membershipId: string;
+  partOfName: string;
+  partOf: string;
 }
 
 export default function HomeMainPage({ userName, userId }: Props) {

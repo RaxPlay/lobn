@@ -27,6 +27,8 @@ export const createNewBoard = async (
 export const getUsersBoard = async (userId: string) => {
   const boards = db
     .select({
+      membershipId: MembersTable.membershipId,
+      partOfName: MembersTable.partOfName,
       partOf: MembersTable.partOf,
     })
     .from(MembersTable)
@@ -64,6 +66,7 @@ export const getBoardName = async (boardId: string) => {
 
 export const joinBoard = async (
   boardId: string,
+  boardName: string,
   newMemberName: string,
   newMemberId: string,
 ) => {
@@ -85,6 +88,7 @@ export const joinBoard = async (
     memberId: newMemberId,
     memberName: newMemberName,
     partOf: boardId,
+    partOfName: boardName
   });
 };
 
