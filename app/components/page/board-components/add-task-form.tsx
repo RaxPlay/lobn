@@ -31,7 +31,7 @@ export default function AddTaskForm({
   };
 
   return (
-    <form onSubmit={submitNewTask} className="flex w-[40%] gap-3">
+    <form onSubmit={submitNewTask} className="flex w-[40%] justify-center gap-3">
       <input
         type="text"
         placeholder="New Task"

@@ -35,9 +35,7 @@ export default function BoardMainPage({ boardId, userName }: Props) {
   }, []);
 
   const goHomeFunc = () => redirect(`/home/${userName}`);
-
-  console.log(displayTasks);
-
+  
   return (
     <div className="flex justify-center">
       <div id="container" className="mt-40 w-[80%] text-center">
