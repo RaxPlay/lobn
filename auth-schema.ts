@@ -14,7 +14,7 @@ export const MembersTable = pgTable("members", {
   memberId: text("member_id").references(() => user.id).notNull(),
   memberName: text("member_name").references(() => user.name).notNull(),
   partOf: uuid("part_of").references(() => BoardTable.boardId).notNull(),
-  partOfName: varchar("part_of_name").references(() => BoardTable.boardName),
+  partOfName: varchar("part_of_name").references(() => BoardTable.boardName).notNull(),
 });
 
 export const TaskTable = pgTable("tasks", {
