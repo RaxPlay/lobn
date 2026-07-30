@@ -35,7 +35,6 @@ export default function JoinBoardForm({
     const redirectUser = async () => {
       if (boardInfo.length !== 0) {
         let boardId = boardInfo[0].boardId;
-        socket.emit("join-room", { board_id: boardId, userName });
         await joinBoard(boardId, boardName, userName, userId);
         redirect(`/board/${boardId}`);
       }

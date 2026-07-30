@@ -29,7 +29,6 @@ export default function CreateBoardForm({
   useEffect(() => {
     const redirectUser = async () => {
       if (boardId !== "") {
-        socket.emit("join-room", { boardId, userName });
         await joinBoard(boardId, boardName, userName, userId);
         redirect(`/board/${boardId}`);
       }

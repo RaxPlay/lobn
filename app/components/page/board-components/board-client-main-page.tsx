@@ -27,6 +27,8 @@ export default function BoardMainPage({ boardId, userName }: Props) {
   const [displayTasks, setDisplayTasks] = useState<DisplayTasks[]>([]);
 
   useEffect(() => {
+    socket.emit("join-room", { boardId, userName });
+
     const fetchContent = async () => {
       setBoardName(await getBoardName(boardId));
       setDisplayTasks(await getTasks(boardId))

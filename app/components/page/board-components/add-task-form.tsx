@@ -4,6 +4,7 @@ import { FaArrowUp } from "react-icons/fa";
 import { DisplayTasks } from "./board-client-main-page";
 import { createNewTask } from "@/utils/utils";
 import { socket } from "@/lib/socketClient";
+import { useEffect } from "react";
 
 interface Props {
   newTask: string;
@@ -21,17 +22,30 @@ export default function AddTaskForm({
   boardId,
   userName,
 }: Props) {
+  useEffect(() => {
+    socket.on("add-task", (data) => {
+      setDisplayTasks((prev) => [...prev, data]);
+    });
+
+    return () => {
+      socket.off("add-task");
+    };
+  }, []);
+
   const submitNewTask = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const data = { taskContent: newTask, taskCreator: userName, boardId}
+    const data = { taskContent: newTask, taskCreator: userName, boardId };
     setDisplayTasks((prev) => [...prev, data]);
-    await createNewTask(newTask, userName, boardId)
-    socket.emit("add-task", data)
+    await createNewTask(newTask, userName, boardId);
+    socket.emit("add-task", data);
   };
 
   return (
-    <form onSubmit={submitNewTask} className="flex w-[40%] justify-center gap-3">
+    <form
+      onSubmit={submitNewTask}
+      className="flex w-[40%] justify-center gap-3"
+    >
       <input
         type="text"
         placeholder="New Task"
