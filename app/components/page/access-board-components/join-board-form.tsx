@@ -26,11 +26,8 @@ export default function JoinBoardForm({
 
     try {
       setBoardInfo(await getBoardId(boardName, boardPassword)); // Checking if board exists by fetching it.
-
-      setBoardName("");
-      setBoardPassword("");
     } catch (error) {
-
+      console.error(error);
     }
   };
 
@@ -39,8 +36,10 @@ export default function JoinBoardForm({
       if (boardInfo.length !== 0) {
         let boardId = boardInfo[0].boardId;
         socket.emit("join-room", { board_id: boardId, userName });
-        await joinBoard(boardId, userName, userId)
+        await joinBoard(boardId, boardName, userName, userId);
         redirect(`/board/${boardId}`);
+        setBoardName("");
+        setBoardPassword("");
       }
     };
     redirectUser();

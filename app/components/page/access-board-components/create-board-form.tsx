@@ -21,9 +21,6 @@ export default function CreateBoardForm({
     e.preventDefault();
     try {
       setBoardId(await createNewBoard(boardName, boardPassword, userName));
-
-      setBoardName("");
-      setBoardPassword("");
     } catch (err) {
       console.error(err);
     }
@@ -33,8 +30,10 @@ export default function CreateBoardForm({
     const redirectUser = async () => {
       if (boardId !== "") {
         socket.emit("join-room", { boardId, userName });
-        await joinBoard(boardId, userName, userId);
+        await joinBoard(boardId, boardName, userName, userId);
         redirect(`/board/${boardId}`);
+        setBoardName("");
+        setBoardPassword("");
       }
     };
     redirectUser();
