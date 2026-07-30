@@ -144,7 +144,6 @@ export const TaskRelations = relations(TaskTable, ({one, many}) => ({
 // }));
 
 export const BoardRelations = relations(BoardTable, ({many}) => ({
-  members: many(MembersTable),
   tasks: many(TaskTable),
   //comments: many(CommentsTable)
 }))

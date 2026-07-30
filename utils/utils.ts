@@ -75,8 +75,8 @@ export const joinBoard = async (
     .from(MembersTable)
     .where(
       and(
-        ne(MembersTable.memberId, newMemberId),
-        ne(MembersTable.partOf, boardId),
+        eq(MembersTable.memberId, newMemberId),
+        eq(MembersTable.partOf, boardId),
       ),
     );
 
@@ -88,7 +88,8 @@ export const joinBoard = async (
     memberId: newMemberId,
     memberName: newMemberName,
     partOf: boardId,
-    partOfName: boardName
+    partOfName: boardName,
+
   });
 };
 
