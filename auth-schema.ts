@@ -10,7 +10,7 @@ export const BoardTable = pgTable("boards", {
 });
 
 export const MembersTable = pgTable("members", {
-  membershipId: uuid("membership_id").defaultRandom().notNull(),
+  membershipId: uuid("membership_id").defaultRandom().primaryKey(),
   memberId: text("member_id").references(() => user.id).notNull(),
   memberName: text("member_name").references(() => user.name).notNull(),
   partOf: uuid("part_of").references(() => BoardTable.boardId).notNull(),
