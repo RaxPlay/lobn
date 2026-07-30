@@ -32,8 +32,6 @@ export default function CreateBoardForm({
         socket.emit("join-room", { boardId, userName });
         await joinBoard(boardId, boardName, userName, userId);
         redirect(`/board/${boardId}`);
-        setBoardName("");
-        setBoardPassword("");
       }
     };
     redirectUser();

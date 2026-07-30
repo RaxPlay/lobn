@@ -38,8 +38,6 @@ export default function JoinBoardForm({
         socket.emit("join-room", { board_id: boardId, userName });
         await joinBoard(boardId, boardName, userName, userId);
         redirect(`/board/${boardId}`);
-        setBoardName("");
-        setBoardPassword("");
       }
     };
     redirectUser();
