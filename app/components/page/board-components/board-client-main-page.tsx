@@ -69,15 +69,15 @@ export default function BoardMainPage({ boardId, userName }: Props) {
   return (
     <div className="flex justify-center">
       <div id="container" className="mt-40 w-[80%] text-center">
-        <header className="flex justify-center items-center">
-          <h1>{boardName}</h1>
-
-          <button
-            className="back-home-btn relative left-[30%]"
-            onClick={goHomeFunc}
-          >
-            <FaHouse />
-          </button>
+        <header className="board-header items-center text-end">
+          <div>
+            <h1>{boardName}</h1>
+          </div>
+          <div className="text-end p-4">
+            <button className="back-home-btn" onClick={goHomeFunc}>
+              <FaHouse />
+            </button>
+          </div>
         </header>
 
         <div className="flex justify-center mt-5">
@@ -91,9 +91,7 @@ export default function BoardMainPage({ boardId, userName }: Props) {
         </div>
 
         <div id="kan-ban-container">
-          <DragDropProvider
-            onDragEnd={handleDragEnd}
-          >
+          <DragDropProvider onDragEnd={handleDragEnd}>
             <Todo id="todo">
               {displayTasks
                 .filter((task) => task.taskZone === "todo")

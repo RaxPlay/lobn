@@ -8,7 +8,7 @@ export default function SignOutButton() {
 	const router = useRouter();
 	
 	return (
-		<button onClick={signOutAction} >		
+		<button onClick={signOutAction} className='sign-out-btn'>		
 			Sign-Out
 		</button>
 	)

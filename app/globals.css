@@ -9,6 +9,8 @@
   --element-border: #444343;
   --board-display-bg: #1c1c1c;
   --board-display-border: #3f3f3f;
+  --danger-bg: #672929;
+  --danger-border: #893e3e;
 }
 
 /*Defaults*/
@@ -117,5 +119,25 @@ button:hover{
 }
 
 .back-home-btn{
- padding: 7px 7px; 
+  padding: 7px 7px; 
+}
+
+.sign-out-btn {
+  background-color: var(--danger-bg);
+  border: 1px solid var(--danger-border);
+}
+
+.sign-out-btn:hover {
+  background-color: #522222;
+  border-color: #ad4d4d;
+}
+
+.board-header{
+  display: grid;
+  grid-template-columns: 53% 47%;
+}
+
+.home-header {
+  display: grid;
+  grid-template-columns: 98% 0%;
 }

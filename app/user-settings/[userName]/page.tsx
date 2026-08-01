@@ -5,14 +5,12 @@ type Props = {
 }
 
 export default async function UserSettings({ params }: Props) {
-  const { userName } = await params;
-
   return (
     <div className="flex justify-center">
-      <div id="container" className="mt-40 text-center w-[50%] h-80">
+      <div id="container" className="mt-40 text-center w-[30%] h-80 p-4">
         <h1>Settings</h1>
 
-        <div>
+        <div className="mt-5">
           <SignOutButton/>
         </div>
       </div>

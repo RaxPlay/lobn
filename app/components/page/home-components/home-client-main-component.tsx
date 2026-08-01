@@ -9,7 +9,7 @@ import { getBoardId, getUsersBoard } from "@/utils/utils";
 
 interface Props {
   userName: string;
-  userId: string
+  userId: string;
 }
 
 export interface Boards {
@@ -22,34 +22,36 @@ export default function HomeMainPage({ userName, userId }: Props) {
   const [displayBoards, setDisplayBoards] = useState<Boards[]>([]);
 
   useEffect(() => {
-    const getBoardsInfo = async() => {
-      setDisplayBoards(await getUsersBoard(userId))
-    }
-    getBoardsInfo()
-  }, [])
+    const getBoardsInfo = async () => {
+      setDisplayBoards(await getUsersBoard(userId));
+    };
+    getBoardsInfo();
+  }, []);
 
-  const goToSettings = () => redirect(`/user-settings/${userName}`)
-  const goJoinBoard = () => redirect(`/access-board`)
+  const goToSettings = () => redirect(`/user-settings/${userName}`);
+  const goJoinBoard = () => redirect(`/access-board`);
 
   return (
     <div className="flex justify-center">
       <div id="container" className="mt-40 w-[80%] text-center">
-        <header className="flex items-center justify-center">
+        <header className="home-header items-center">
           <h1>
             Welcome Home <span className="underline">{userName}</span>
           </h1>
 
-          <button className="relative left-[20%]" onClick={goJoinBoard}>
-            <GrLogin/>
-          </button>
-          
-          <button className="relative left-[26%]" onClick={goToSettings}>
-            <FaUser/>
-          </button>
+          <div className="flex justify-end gap-5 p-4">
+            <button onClick={goJoinBoard}>
+              <GrLogin />
+            </button>
+
+            <button onClick={goToSettings}>
+              <FaUser />
+            </button>
+          </div>
         </header>
 
         <section>
-          <DisplayBoards displayBoards={displayBoards}/>
+          <DisplayBoards displayBoards={displayBoards} />
         </section>
       </div>
     </div>
