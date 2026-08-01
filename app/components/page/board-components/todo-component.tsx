@@ -1,23 +1,19 @@
-import React from 'react'
-import { DisplayTasks } from './board-client-main-page'
-import { FaTrash } from 'react-icons/fa';
+import { useDroppable } from '@dnd-kit/react';
 
 interface Props {
-  displayTasks: DisplayTasks[];
+  id: string;
+  children?: React.ReactNode
 }
 
-export default function Todo({ displayTasks }: Props) {
+export default function Todo({ id, children }: Props) {
+  const {ref} = useDroppable({id})
+
   return (
     <div id="board-element">
       <h2>Todo</h2>
 
       <div className='p-2 flex flex-col gap-2'>
-      {displayTasks.map((task, index) => (
-        <div key={index} id='task'>
-          {task.taskContent}
-        </div>
-      ))}
-
+        {children}
       </div>
     </div>
   )

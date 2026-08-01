@@ -132,3 +132,10 @@ export const getTasks = async (boardId: string) => {
 
   return allTasks;
 };
+
+export const updateTaskZone = async (taskId: string, taskZone: string) => {
+  await db
+    .update(TaskTable)
+    .set({ taskZone })
+    .where(eq(TaskTable.taskId, taskId));
+};
