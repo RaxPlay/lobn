@@ -97,22 +97,22 @@ export default function BoardMainPage({ boardId, userName }: Props) {
             <Todo id="todo">
               {displayTasks
                 .filter((task) => task.taskZone === "todo")
-                .map((task, index) => (
-                  <Draggable key={index} id={index} task={task} />
+                .map((task) => (
+                  <Draggable key={task.taskId} id={task.taskId} task={task} />
                 ))}
             </Todo>
             <Doing id="doing">
               {displayTasks
                 .filter((task) => task.taskZone === "doing")
-                .map((task, index) => (
-                  <Draggable key={index} id={index} task={task} />
+                .map((task) => (
+                  <Draggable key={task.taskId} id={task.taskId} task={task} />
                 ))}
             </Doing>
             <Done id="done">
               {displayTasks
                 .filter((task) => task.taskZone === "done")
-                .map((task, index) => (
-                  <Draggable key={index} id={index} task={task} />
+                .map((task) => (
+                  <Draggable key={task.taskId} id={task.taskId} task={task} />
                 ))}
             </Done>
           </DragDropProvider>
