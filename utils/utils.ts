@@ -97,18 +97,22 @@ export const createNewTask = async (
   taskContent: string,
   taskCreator: string,
   boardId: string,
+  taskZone: string,
 ) => {
-  const task = await db
+  const [task] = await db
     .insert(TaskTable)
     .values({
       taskContent,
       taskCreator,
       boardId,
+      taskZone,
     })
     .returning({
       taskId: TaskTable.taskId,
       taskContent: TaskTable.taskContent,
       taskCreator: TaskTable.taskCreator,
+      taskZone: TaskTable.taskZone,
+      boardId: TaskTable.boardId
     });
 
   return task;
@@ -117,8 +121,10 @@ export const createNewTask = async (
 export const getTasks = async (boardId: string) => {
   const allTasks = await db
     .select({
+      taskId: TaskTable.taskId,
       taskContent: TaskTable.taskContent,
       taskCreator: TaskTable.taskCreator,
+      taskZone: TaskTable.taskZone,
       boardId: TaskTable.boardId,
     })
     .from(TaskTable)

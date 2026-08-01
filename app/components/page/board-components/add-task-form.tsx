@@ -35,10 +35,26 @@ export default function AddTaskForm({
   const submitNewTask = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const data = { taskContent: newTask, taskCreator: userName, boardId };
-    setDisplayTasks((prev) => [...prev, data]);
-    await createNewTask(newTask, userName, boardId);
-    socket.emit("add-task", data);
+    const tempId = crypto.randomUUID();
+    const optimisticTask = {
+      taskId: tempId,
+      taskContent: newTask,
+      taskCreator: userName,
+      boardId,
+      taskZone: "todo",
+    };
+
+    setDisplayTasks((prev) => [...prev, optimisticTask]);
+
+    const savedTask = await createNewTask(newTask, userName, boardId, "todo");
+
+    setDisplayTasks((prev) =>
+      prev.map((t) => (t.taskId === tempId ? savedTask : t)),
+    );
+
+    socket.emit("add-task", savedTask);
+
+    setNewTask("");
   };
 
   return (
