@@ -17,7 +17,7 @@ export default async function SignUpPage() {
         <form
           action={signUpAction}
           id="container"
-          className="flex flex-col items-center mt-40 px-3 py-4"
+          className="flex flex-col items-center mt-40 px-3 py-4 animate-fade-up animate-duration-[1200ms]"
         >
           <h1>Sign Up</h1>
           <input

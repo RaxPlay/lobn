@@ -6,7 +6,7 @@ export default async function NavBar() {
 
   if (!session) {
     return (
-      <nav className="flex justify-center gap-20 py-5 bg-[#292828] rounded-b-lg">
+      <nav className="flex justify-center gap-20 py-5 bg-[#292828] rounded-b-lg animate-fade-down animate-duration-[1200ms]">
         <Link href="/sign-in" className="hover:underline">Sign-In</Link>
         <Link href="/sign-up" className="hover:underline">Sign-Up</Link>
       </nav>

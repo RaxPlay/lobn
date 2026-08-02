@@ -35,7 +35,7 @@ export default function AccessBoardMainPage({ userName, userId }: Props) {
 
   return (
     <div className="flex justify-center text-center">
-      <div id="container" className="w-120 mt-40 pt-4 pb-8">
+      <div id="container" className="w-120 mt-40 pt-4 pb-8 animate-fade-up animate-duration-[1200ms]">
         <header className="flex justify-end px-4">
           <button onClick={goHome}>
             <FaHome/>

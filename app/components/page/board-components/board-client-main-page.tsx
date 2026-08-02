@@ -68,7 +68,7 @@ export default function BoardMainPage({ boardId, userName }: Props) {
 
   return (
     <div className="flex justify-center">
-      <div id="container" className="mt-40 w-[80%] text-center">
+      <div id="container" className="mt-40 w-[80%] text-center animate-fade-up animate-duration-[1200ms]">
         <header className="board-header items-center text-end">
           <div>
             <h1>{boardName}</h1>

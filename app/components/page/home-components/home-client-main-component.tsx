@@ -33,7 +33,7 @@ export default function HomeMainPage({ userName, userId }: Props) {
 
   return (
     <div className="flex justify-center">
-      <div id="container" className="mt-40 w-[80%] text-center">
+      <div id="container" className="mt-40 w-[80%] text-center animate-fade-up animate-duration-[1200ms]">
         <header className="home-header items-center">
           <h1>
             Welcome Home <span className="underline">{userName}</span>
